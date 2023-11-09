@@ -1,5 +1,6 @@
 import { SERVER } from "../constants";
 import { Post, PostInsert } from "../interfaces/post";
+import { PostsResponse } from "../interfaces/responses";
 import { Vote } from "../interfaces/vote";
 import { Http } from "./http";
 
@@ -9,9 +10,10 @@ export class PostsService {
         this.#http = new Http();
     }
 
-    async getAll(): Promise<Post[]> {
-        const resp = await this.#http.get(`${SERVER}/posts`);
-        return resp.posts;
+    async getAll(): Promise<PostsResponse> {
+        const resp = await this.#http.get(`${SERVER}/posts`) as PostsResponse;
+        console.log("hola");
+        return resp;//.posts;
     }
 
     async post(post: PostInsert): Promise<PostInsert> {
@@ -27,7 +29,7 @@ export class PostsService {
         return this.#http.delete(`${SERVER}/posts/${id}/likes`);
     }
 
-    async deletePost(id): Promise<Post> {
+    async deletePost(id: number): Promise<Post> {
         return this.#http.delete(`${SERVER}/posts/${id}`);
     }
     // Complete this class

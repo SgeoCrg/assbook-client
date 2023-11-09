@@ -1,7 +1,7 @@
 "use strict";
 
 import { PostsService } from "./classes/posts-service.ts";
-//import { Post } from "./interfaces/post.ts";
+import { Post } from "./interfaces/post.ts";
 import { MapService } from "./classes/map-service.ts";
 
 const postsService = new PostsService();
@@ -12,10 +12,10 @@ const imgPreview = document.getElementById("imgPreview");
 //const place = document.getElementById("place");
 //const locationContainer = document.getElementById("location-container");
 
-async function validateForm(event: Event) {
+async function validateForm(event: Event): Promise<void> {
     event.preventDefault();
     const place = newPostForm.place.value.trim();
-    const title = newPostForm.title.value.trim();
+    const title = newPostForm.title.trim();//title.value.trim();
     const image: string = newPostForm.image.value ? (<HTMLImageElement>imgPreview).src : "";
     const description = newPostForm.description.value.trim();
     const mood = +newPostForm.mood.value;
@@ -30,12 +30,12 @@ async function validateForm(event: Event) {
             if(image == "") {
                 console.log(title, description, mood, lat, lng, place);
                 await postsService.post({
-                    "title": title, 
-                    "description": description,
-                    "mood": mood, 
-                    "lat": lat, 
-                    "lng": lng, 
-                    "place": place});
+                    title, 
+                    description,
+                    mood, 
+                    lat, 
+                    lng, 
+                    place});
             } else {
                 await postsService.post({title, image, description, mood});
             }
@@ -53,7 +53,8 @@ for(let i = 0; i < radioButGroup.length; i++) {
         if((<HTMLInputElement>e.srcElement!).id==="postLocation") {
             document.getElementById("photo-group")!.classList.add("d-none");
             document.getElementById("location-group")!.classList.remove("d-none");
-            mapServices.showMap();//getMap()
+            //mapServices.showMap();//getMap()
+            loadBingApi();
         } else {
             document.getElementById("photo-group")!.classList.remove("d-none");
             document.getElementById("location-group")!.classList.add("d-none");
@@ -61,7 +62,7 @@ for(let i = 0; i < radioButGroup.length; i++) {
     } );
 } 
 
-function loadImage(event: Event) {
+function loadImage(event: Event): void {
     const file = (event.target)!.files[0];
     const reader = new FileReader();
 
@@ -73,7 +74,7 @@ function loadImage(event: Event) {
     });
 }
 
-function createScript() {
+function createScript(): void {
     const script = document.createElement("script");
     //let body = document.getElementsByTagName("body");
     script.src="http://www.bing.com/api/maps/mapcontrol?callback=showMap";//=getMap
@@ -81,7 +82,7 @@ function createScript() {
     document.body.append(script);
 }
 
-function createHiddenFields() {
+function createHiddenFields(): void {
     const form = document.getElementById("newPlace");
     const lat = document.createElement("input");
     lat.type="hidden";
