@@ -1,17 +1,21 @@
 "use strict";
 
 import { PostsService } from "./classes/posts-service.ts";
-import { Post } from "./interfaces/post.ts";
+//import { Post } from "./interfaces/post.ts";
 import { MapService } from "./classes/map-service.ts";
 import { MyGeolocation } from "./classes/my-geolocation.ts";
 import { Coordinates } from "./interfaces/coordinates.ts";
+import { Http } from "./classes/http.ts";
+import { Utils } from "./classes/utils.ts";
 
 const postsService = new PostsService();
 const newPostForm = document.getElementById("newPlace") as HTMLFormElement;
 const errorMsg = document.getElementById("errorMsg");
 const imgPreview = document.getElementById("imgPreview");
-const place = document.getElementById("place");
-const locationContainer = document.getElementById("location-container");
+const http = new Http();
+const utils = new Utils();
+//const place = document.getElementById("place");
+//const locationContainer = document.getElementById("location-container");
 
 async function validateForm(event: Event): Promise<void> {
     event.preventDefault();
@@ -86,8 +90,8 @@ function createScript(): void {
     document.body.append(script);
 }
 
-function createHiddenFields(): void {
-    const form = document.getElementById("newPlace");
+/*function createHiddenFields(formName: string): void {
+    const form = document.getElementById(formName);
     const lat = document.createElement("input");
     lat.type="hidden";
     const lng = document.createElement("input");
@@ -98,7 +102,7 @@ function createHiddenFields(): void {
     lng.value = "0";
     form!.append(lat);
     form!.append(lng);
-}
+}*/
 
 async function showMap(): Promise<void> {
     const coords = await MyGeolocation.getLocation();
@@ -137,9 +141,10 @@ function switchAddress(bool: boolean): void {
         lng?.classList.remove("on");
     }
 }
+utils.checkToken(localStorage.getItem("token")!);
 
 newPostForm.image.addEventListener("change", loadImage);
-newPostForm!.addEventListener("submit", validateForm);
+newPostForm.addEventListener("submit", validateForm);
 
 createScript();
-createHiddenFields();
+utils.createHiddenFields("newPlace");

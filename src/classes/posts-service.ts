@@ -12,7 +12,7 @@ export class PostsService {
 
     async getAll(): Promise<PostsResponse> {
         const resp = await this.#http.get(`${SERVER}/posts`) as PostsResponse;
-        console.log("hola");
+        console.log("cargados todos los posts");
         return resp;//.posts;
     }
 

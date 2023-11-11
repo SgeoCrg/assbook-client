@@ -4,10 +4,12 @@ import { PostsService } from "./classes/posts-service.js";
 import { Post } from "./interfaces/post.ts";
 import { PostsResponse } from "./interfaces/responses.ts";
 import { Vote } from "./interfaces/vote.ts";
+import { Utils } from "./classes/utils.ts";
 
 let posts: PostsResponse;
 const postsService = new PostsService();
 const container = document.getElementById("postContainer");
+const utils = new Utils();
 
 function addPost(post: Post): void {
     const card = document.createElement("div");
@@ -133,6 +135,8 @@ function addPost(post: Post): void {
 
     container!.append(card);
 }
+
+utils.checkToken(localStorage.getItem("token")!);
 
 function showPosts(posts: Array<Post>): void {
     container!.replaceChildren();
