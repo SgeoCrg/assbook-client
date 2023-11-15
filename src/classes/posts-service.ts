@@ -1,6 +1,7 @@
 import { SERVER } from "../constants";
+import { CommentInsert } from "../interfaces/comment";
 import { Post, PostInsert } from "../interfaces/post";
-import { PostsResponse } from "../interfaces/responses";
+import { CommentResponse, CommentsResponse, PostsResponse } from "../interfaces/responses";
 import { Vote } from "../interfaces/vote";
 import { Http } from "./http";
 
@@ -14,6 +15,11 @@ export class PostsService {
         const resp = await this.#http.get(`${SERVER}/posts`) as PostsResponse;
         console.log("cargados todos los posts");
         return resp;//.posts;
+    }
+
+    async get(id: string):Promise<Post> {
+        const resp = await this.#http.get(`${SERVER}/posts/`+id) as Post;
+        return resp;
     }
 
     async post(post: PostInsert): Promise<PostInsert> {
@@ -32,6 +38,15 @@ export class PostsService {
     async deletePost(id: number): Promise<Post> {
         return this.#http.delete(`${SERVER}/posts/${id}`);
     }
+
+    async getComments(id: string): Promise<CommentsResponse> {
+        return this.#http.get(`${SERVER}/posts/${id}/comments`);
+    }
+
+    async postComment(id: string, text: string): Promise<CommentResponse> {
+        return this.#http.post(`${SERVER}/posts/${id}/comments`, text);
+    }
+
     // Complete this class
 }
 

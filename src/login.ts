@@ -42,6 +42,10 @@ async function takeCoords(): Promise<void> {
 formLogin.addEventListener("submit", validateForm);
 utils.createHiddenFields("form-login");
 takeCoords();
-localStorage.setItem("token", "");
-//mando USERLOGIN
-//recibo TOKEN RESPONSE
+
+await userService.getToken().then(respuest=>{
+    console.log("then->",respuest);
+    location.assign("index.html");
+}).catch(error => {
+    console.log("error->",error);
+});

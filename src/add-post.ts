@@ -141,7 +141,7 @@ function switchAddress(bool: boolean): void {
         lng?.classList.remove("on");
     }
 }
-utils.checkToken(localStorage.getItem("token")!);
+utils.checkToken();
 
 newPostForm.image.addEventListener("change", loadImage);
 newPostForm.addEventListener("submit", validateForm);
