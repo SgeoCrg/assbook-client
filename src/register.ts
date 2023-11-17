@@ -23,7 +23,6 @@ async function validateForm(event: Event): Promise<void> {
         if(name == "" || email == "" || password == "" || newUserForm.avatar.value == "")
             alert("you must fill all the fields");
         else {
-            //console.log(name, email, password, lat, lng);
             const avatar: string = newUserForm.avatar.value ? (<HTMLImageElement>imgPreview).src : "";
             await userService.register({
                 name,
@@ -38,9 +37,6 @@ async function validateForm(event: Event): Promise<void> {
                 location.assign("login.html");
             }).catch(error => alert(error.message[0]));
         }
-    //COMPROBAR CORREO == CORREO2
-    //COMPROBAR NO CAMPOS VACIOS
-    //HACER EL CATCH o EL THEN
 }
 
 function loadImage(event: Event): void {

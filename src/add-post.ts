@@ -1,7 +1,6 @@
 "use strict";
 
 import { PostsService } from "./classes/posts-service.ts";
-//import { Post } from "./interfaces/post.ts";
 import { MapService } from "./classes/map-service.ts";
 import { MyGeolocation } from "./classes/my-geolocation.ts";
 import { Coordinates } from "./interfaces/coordinates.ts";
@@ -14,8 +13,7 @@ const errorMsg = document.getElementById("errorMsg");
 const imgPreview = document.getElementById("imgPreview");
 const http = new Http();
 const utils = new Utils();
-//const place = document.getElementById("place");
-//const locationContainer = document.getElementById("location-container");
+const logout = document.getElementById("logout");
 
 async function validateForm(event: Event): Promise<void> {
     event.preventDefault();
@@ -84,32 +82,13 @@ function loadImage(event: Event): void {
 
 function createScript(): void {
     const script = document.createElement("script");
-    //let body = document.getElementsByTagName("body");
     script.src="http://www.bing.com/api/maps/mapcontrol?callback=getMap";//=showMap
     script.defer = true;
     document.body.append(script);
 }
 
-/*function createHiddenFields(formName: string): void {
-    const form = document.getElementById(formName);
-    const lat = document.createElement("input");
-    lat.type="hidden";
-    const lng = document.createElement("input");
-    lng.type="hidden";
-    lat.id = "lat";
-    lng.id = "lng";
-    lat.value = "0";
-    lng.value = "0";
-    form!.append(lat);
-    form!.append(lng);
-}*/
-
 async function showMap(): Promise<void> {
     const coords = await MyGeolocation.getLocation();
-    //const lat = document.getElementById("lat");
-    //const lng = document.getElementById("lng");
-    //(<HTMLInputElement>lat).value = coords.latitude.toString();
-    //(<HTMLInputElement>lng).value = coords.longitude.toString();
     coordinatesMap(coords);
     const mapsService = await MapService.createMapService(coords, "map");
     const marker = mapsService.createMarker(coords, "red");
@@ -117,8 +96,6 @@ async function showMap(): Promise<void> {
     autosuggest.attachAutosuggest("#place", "#location-container", (result) => {//("#search", "#searchcontainer",
         marker.setLocation(result.location);
         mapsService.map.setView({center: result.location});
-        //(<HTMLInputElement>lat).value = result.location.latitude.toString();
-        //(<HTMLInputElement>lng).value = result.location.longitude.toString();
         coordinatesMap(result.location);
     });
 }
@@ -148,3 +125,8 @@ newPostForm.addEventListener("submit", validateForm);
 
 createScript();
 utils.createHiddenFields("newPlace");
+
+logout?.addEventListener("click", () => {
+    localStorage.setItem("token", "");
+    location.assign("login.html");
+});

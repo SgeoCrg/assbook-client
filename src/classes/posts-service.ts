@@ -43,7 +43,7 @@ export class PostsService {
         return this.#http.get(`${SERVER}/posts/${id}/comments`);
     }
 
-    async postComment(id: string, text: string): Promise<CommentResponse> {
+    async postComment(id: string, text: CommentInsert): Promise<CommentResponse> {
         return this.#http.post(`${SERVER}/posts/${id}/comments`, text);
     }
 

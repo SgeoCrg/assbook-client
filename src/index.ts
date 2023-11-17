@@ -89,6 +89,14 @@ function addPost(post: Post): void {
     col2.append(userName);
     col2.append(divDate);
 
+    userName.addEventListener("click", () => {
+        location.assign("profile.html?id=" + post.creator.id);
+    });
+
+    avatar.addEventListener("click", () => {
+        location.assign("profile.html?id=" + post.creator.id);
+    });
+
     const col = document.createElement("div");
     col.classList.add("col-auto");
     const deletebtn = document.createElement("button");
@@ -171,7 +179,6 @@ logout?.addEventListener("click", () => {
     localStorage.setItem("token", "");
 });
 
-//utils.checkToken(localStorage.getItem("token")!);
 utils.checkToken();
 
 function showPosts(posts: Array<Post>): void {

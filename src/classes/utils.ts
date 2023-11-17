@@ -3,6 +3,8 @@ import { UserService } from "./user-service";
 import { Post } from "../interfaces/post";
 import { PostsService } from "./posts-service";
 import { CommentsResponse } from "../interfaces/responses";
+import { MyGeolocation } from "./my-geolocation";
+import { MapService } from "./map-service";
 
 const userService = new UserService();
 const postsService = new PostsService();
@@ -108,6 +110,14 @@ export class Utils {
         col2.append(userName);
         col2.append(divDate);
 
+        userName.addEventListener("click", () => {
+            location.assign("profile.html?id=" + post.creator.id);
+        });
+    
+        avatar.addEventListener("click", () => {
+            location.assign("profile.html?id=" + post.creator.id);
+        });
+
         const col = document.createElement("div");
         col.classList.add("col-auto");
         const deletebtn = document.createElement("button");
@@ -191,4 +201,9 @@ export class Utils {
         return card;
     }
 
+    async showMap(lat: number, lng: number): Promise<void> {
+        const coords: Coordinates = {latitude: lat, longitude: lng};
+        const mapsService = await MapService.createMapService(coords, "map");
+        const marker = mapsService.createMarker(coords, "red");
+    }
 }
